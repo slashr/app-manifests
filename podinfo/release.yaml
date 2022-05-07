@@ -26,7 +26,7 @@ spec:
           enabled: true
           className: "nginx"
           hosts:
-            - host: 7b7f-87-10-70-185.eu.ngrok.io
+            - host: 41d3-87-10-70-185.eu.ngrok.io
               paths:
                 - path: /podinfo
                   pathType: Prefix
