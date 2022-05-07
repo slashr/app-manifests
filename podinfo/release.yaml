@@ -28,10 +28,5 @@ spec:
           hosts:
             - host: "*.eu.ngrok.io"
               paths:
-                - path: "/podinfo"
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: podinfo
-                      port:
-                        number: 9898
+                - path: /
+                  pathType: ImplementationSpecific
