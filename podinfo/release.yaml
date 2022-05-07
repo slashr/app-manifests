@@ -12,8 +12,8 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
+#    syncOptions:
+#    - CreateNamespace=true
   project: default
   source:
     targetRevision: '>=5.*.*'
