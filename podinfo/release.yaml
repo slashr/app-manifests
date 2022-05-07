@@ -28,5 +28,5 @@ spec:
           hosts:
             - host: 7b7f-87-10-70-185.eu.ngrok.io
               paths:
-                - path: /
+                - path: /podinfo
                   pathType: ImplementationSpecific
