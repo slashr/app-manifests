@@ -27,12 +27,11 @@ spec:
           className: "nginx"
           hosts:
             - host: "*.eu.ngrok.io"
-              http:
-                paths:
-                  - path: "/podinfo"
-                    pathType: Prefix
-                    backend:
-                      service:
-                        name: podinfo
-                        port:
-                          number: 9898
+              paths:
+                - path: "/podinfo"
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: podinfo
+                      port:
+                        number: 9898
