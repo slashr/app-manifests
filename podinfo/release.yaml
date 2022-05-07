@@ -3,8 +3,8 @@ kind: Application
 metadata:
   name: podinfo
   namespace: argo-cd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: default
@@ -22,3 +22,12 @@ spec:
     helm:
       values: |
         replicaCount: '2'
+        ingress:
+        enabled: true
+        className: "nginx"
+        annotations: {}
+        hosts:
+          - host: podinfo.local
+            paths:
+              - path: /
+                pathType: ImplementationSpecific
