@@ -25,7 +25,6 @@ spec:
         ingress:
         enabled: true
         className: "nginx"
-        annotations: {}
         hosts:
           - host: podinfo.local
             paths:
