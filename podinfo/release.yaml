@@ -26,7 +26,7 @@ spec:
           enabled: true
           className: "nginx"
           hosts:
-            - host: podinfo.local
+            - host: 7b7f-87-10-70-185.eu.ngrok.io
               paths:
                 - path: /
                   pathType: ImplementationSpecific
