@@ -26,7 +26,7 @@ spec:
           enabled: true
           className: "nginx"
           hosts:
-            - host: "minikube.cluster"
+            - host: "akash.zapto.org"
               paths:
                 - path: /
                   pathType: ImplementationSpecific
