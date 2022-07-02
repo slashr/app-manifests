@@ -26,7 +26,7 @@ spec:
           enabled: true
           className: "nginx"
           hosts:
-            - host: "podinfo.cretus"
+            - host: "podinfo.akashnair.com"
               paths:
                 - path: /
                   pathType: ImplementationSpecific
