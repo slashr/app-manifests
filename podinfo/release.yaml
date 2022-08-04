@@ -25,6 +25,9 @@ spec:
         ingress:
           enabled: true
           className: "nginx"
+          annotations:
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/issuer: letsencrypt-staging
           hosts:
             - host: "podinfo.akashnair.com"
               paths:
