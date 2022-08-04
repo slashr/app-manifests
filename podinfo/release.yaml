@@ -36,3 +36,5 @@ spec:
           tls:
             - hosts:
                 - "podinfo.akashnair.com"
+              secretName: podinfo-tls
+
