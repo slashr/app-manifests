@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vale
+  namespace: argo-cd
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: default
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      selfHeal: true
+#    syncOptions:
+#    - CreateNamespace=true
+  project: default
+  source:
+    targetRevision: '>=5.*.*'
+    repoURL: 'https://stefanprodan.github.io/podinfo'
+    chart: podinfo
+    helm:
+      values: |
+        replicaCount: '2'
+        ingress:
+          enabled: true
+          className: "nginx"
+          annotations:
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+            - host: "vale.akashnair.com"
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - hosts:
+                - "vale.akashnair.com"
+              secretName: vale-tls
+
