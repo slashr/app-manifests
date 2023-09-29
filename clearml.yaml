@@ -20,6 +20,10 @@ spec:
     targetRevision: '7.3.2'
     helm:
       values: |
+        elasticsearch:
+          enabled: false
+        redis:
+          enabled: false
         webserver:
           service:
             type: ClusterIP
