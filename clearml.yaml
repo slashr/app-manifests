@@ -30,7 +30,6 @@ spec:
           ingress:
             enabled: true
             hostName: "clearml.akashnair.com"
-            ingressClassName: "nginx"
             tlsSecretName: "clearml-webserver-tls"
 
         fileserver:
@@ -39,7 +38,6 @@ spec:
           ingress:
             enabled: true
             hostName: "files.akashnair.com"
-            ingressClassName: "nginx"
             tlsSecretName: "clearml-fileserver-tls"
 
         apiserver:
@@ -48,7 +46,6 @@ spec:
           ingress:
             enabled: true
             hostName: "api.akashnair.com"
-            ingressClassName: "nginx"
             tlsSecretName: "clearml-apiserver-tls"
           additionalConfigs:
             apiserver.conf: |
