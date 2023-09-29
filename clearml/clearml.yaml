@@ -28,6 +28,9 @@ spec:
           service:
             type: ClusterIP
           ingress:
+          annotations:
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             hostName: "clearml.akashnair.com"
             tlsSecretName: "clearml-webserver-tls"
@@ -36,6 +39,9 @@ spec:
           service:
             type: ClusterIP
           ingress:
+          annotations:
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             hostName: "files.akashnair.com"
             tlsSecretName: "clearml-fileserver-tls"
@@ -44,6 +50,9 @@ spec:
           service:
             type: ClusterIP
           ingress:
+          annotations:
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
             enabled: true
             hostName: "api.akashnair.com"
             tlsSecretName: "clearml-apiserver-tls"
