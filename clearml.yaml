@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clearml
+  namespace: argo-cd
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: 'clearml'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  project: "default"
+  source:
+    repoURL: 'https://allegroai.github.io/clearml-helm-charts'
+    chart: 'clearml'
+    targetRevision: '7.3.2'
+    helm:
+      values: |
+        webserver:
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            hostName: "clearml.akashnair.com"
+            ingressClassName: "nginx"
+            tlsSecretName: "clearml-webserver-tls"
+
+        fileserver:
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            hostName: "files.akashnair.com"
+            ingressClassName: "nginx"
+            tlsSecretName: "clearml-fileserver-tls"
+
+        apiserver:
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            hostName: "api.akashnair.com"
+            ingressClassName: "nginx"
+            tlsSecretName: "clearml-apiserver-tls"
+          additionalConfigs:
+            apiserver.conf: |
+              auth {
+                   # Fixed users login credentials
+                   # No other user will be able to login
+                   fixed_users {
+                       enabled: true
+                       pass_hashed: true
+                       users: [
+                           {
+                               username: "akash"
+                               password: "JDJiJDEyJEZyOXFtU2o3RThoRlZSVVducTA2dC5nSWR0Tmh4U2ZVd1FNMlFYTTdXT2ZkUzhBcmZoVGou"
+                               name: "Akash Nair"
+                           }
+                       ]
+                   }
+               }
