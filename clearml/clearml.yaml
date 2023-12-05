@@ -73,5 +73,3 @@ spec:
                }
         elasticsearch:
           enabled: false
-        mongodb:
-          enabled: false
