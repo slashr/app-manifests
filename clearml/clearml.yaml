@@ -17,7 +17,7 @@ spec:
   source:
     repoURL: 'https://allegroai.github.io/clearml-helm-charts'
     chart: 'clearml'
-    targetRevision: '7.3.2'
+    targetRevision: '7.5.0'
     helm:
       values: |
         elasticsearch:
