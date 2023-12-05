@@ -73,3 +73,10 @@ spec:
                }
         elasticsearch:
           enabled: false
+        mongodb:
+          enabled: true
+          persistence:
+            enabled: true
+            accessModes:
+              - ReadWriteOnce
+            size: 5Gi
