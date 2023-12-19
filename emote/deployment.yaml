@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: emote
+  template:
+    metadata:
+      labels:
+        app: emote
+    spec:
+      containers:
+      - name: emote
+        image: dawker/bart-large-mnli:1.0.0
+        ports:
+        - containerPort: 5050
+

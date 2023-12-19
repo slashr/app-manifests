@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: emote
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: emote.akashnair.com
+    external-dns.alpha.kubernetes.io/target: 130.61.64.164
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /classify
+        pathType: Prefix
+        backend:
+          service:
+            name: emote
+            port:
+              number: 80
+      tls:
+        - hosts:
+            - "emote.akashnair.com"
+          secretName: emote-tls
+
