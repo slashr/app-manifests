@@ -9,14 +9,15 @@ metadata:
 spec:
   rules:
     - host: "emote.akashnair.com"
-      paths:
-        - path: /classify
-          pathType: Prefix
-          backend:
-            service:
-              name: emote
-              port:
-                number: 80
+      http:
+        paths:
+          - path: /classify
+            pathType: Prefix
+            backend:
+              service:
+                name: emote
+                port:
+                  number: 80
   tls:
     - hosts:
         - "emote.akashnair.com"
