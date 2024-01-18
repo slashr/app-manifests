@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: emote-frontend
+                name: emote
                 port:
                   number: 80
   tls:

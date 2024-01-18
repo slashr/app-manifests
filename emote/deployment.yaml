@@ -1,20 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emote-backend
+  name: emote
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: emote-backend
+      app: emote
   template:
     metadata:
       labels:
-        app: emote-backend
+        app: emote
     spec:
       containers:
-      - name: emote
+      - name: emote-backend
         image: dawker/bart-large-mnli:1.0.0
         ports:
         - containerPort: 5050
+      containers:
+      - name: emote-frontend
+        image: dawker/bart-large-mnli-frontend:1.1.0
+        ports:
+        - containerPort: 80
 
