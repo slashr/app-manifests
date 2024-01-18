@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emote
+  name: emote-backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: emote
+      app: emote-backend
   template:
     metadata:
       labels:
-        app: emote
+        app: emote-backend
     spec:
       containers:
       - name: emote
