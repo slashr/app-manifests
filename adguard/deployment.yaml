@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard
+  template:
+    metadata:
+      labels:
+        app: adguard
+    spec:
+      containers:
+      - name: adguard
+        image: adguard/adguardhome:v0.107.43
+        ports:
+        - containerPort: 53
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 784
+        - containerPort: 853
+
+

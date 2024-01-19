@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguard
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: adguard.akashnair.com
+    external-dns.alpha.kubernetes.io/target: 130.61.64.164
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+    - host: "adguard.akashnair.com"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguard
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - "adguard.akashnair.com"
+      secretName: adguard-tls
+
