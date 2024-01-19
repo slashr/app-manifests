@@ -17,14 +17,14 @@ spec:
     - protocol: TCP
       port: 53
       targetPort: 53
-      name: https
+      name: dns
     - protocol: TCP
       port: 784
       targetPort: 784
-      name: https
+      name: dns-over-quic1
     - protocol: TCP
       port: 853
       targetPort: 853
-      name: https
+      name: dns-over-quic2
   type: ClusterIP
 
