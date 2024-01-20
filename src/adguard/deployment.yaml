@@ -21,5 +21,6 @@ spec:
         - containerPort: 443
         - containerPort: 784
         - containerPort: 853
+        - containerPort: 3000
 
 
