@@ -17,7 +17,7 @@ spec:
               service:
                 name: adguard
                 port:
-                  number: 80
+                  number: 443
   tls:
     - hosts:
         - "adguard.akashnair.com"
