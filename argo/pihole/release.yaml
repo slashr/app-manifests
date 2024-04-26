@@ -19,7 +19,4 @@ spec:
     targetRevision: '>=2.*.*'
     repoURL: 'https://mojo2600.github.io/pihole-kubernetes'
     chart: pihole
-    helm:
-      values: |
-        replicaCount: '2'
 
