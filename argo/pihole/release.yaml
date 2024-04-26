@@ -22,4 +22,11 @@ spec:
   helm:
     values:
       replicaCount: 1
-
+      # -- Configuration for the Ingress
+      ingress:
+        # -- Generate a Ingress resource
+        enabled: true
+      
+        # -- Specify an ingressClassName
+        ingressClassName: traefik
+      
