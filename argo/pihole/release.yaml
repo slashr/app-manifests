@@ -20,7 +20,7 @@ spec:
     repoURL: 'https://mojo2600.github.io/pihole-kubernetes'
     chart: pihole
     helm:
-      values:
+      values: |
         replicaCount: 1
         ingress:
           enabled: true
