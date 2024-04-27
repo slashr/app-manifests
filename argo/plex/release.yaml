@@ -18,7 +18,7 @@ spec:
   source:
     targetRevision: '>=0.*.*'
     repoURL: 'https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages'
-    chart: plex
+    chart: plex-media-server
     helm:
       values: |
         replicaCount: '2'
