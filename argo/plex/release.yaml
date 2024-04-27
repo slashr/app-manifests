@@ -21,6 +21,8 @@ spec:
     chart: plex-media-server
     helm:
       values: |
+        image:
+          repository: dawker/plex-arm
         replicaCount: '2'
         ingress:
           enabled: true
