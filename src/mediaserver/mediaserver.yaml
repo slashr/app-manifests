@@ -17,7 +17,7 @@ spec:
     #Persistent storage selections and pathing
     storage:
       customVolume: false #set to true if not using a PVC (must provide volume below)
-      accessMode: ""
+      accessMode: "RWO"
       pvcName: mediaserver-pvc
       size: 5Gi
       pvcStorageClass: "local-path"
