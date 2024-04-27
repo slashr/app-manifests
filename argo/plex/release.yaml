@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: plex
+  namespace: argo-cd
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: plex
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  project: default
+  source:
+    targetRevision: '>=0.*.*'
+    repoURL: 'https://raw.githubusercontent.com/plexinc/pms-docker/gh-pages'
+    chart: plex
+    helm:
+      values: |
+        replicaCount: '2'
+        ingress:
+          enabled: true
+          annotations:
+            # Create a A record pointing to the given IP on cloudflare
+            external-dns.alpha.kubernetes.io/hostname: plex.akashnair.com
+            external-dns.alpha.kubernetes.io/target: 130.61.64.164
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          url: "plex.akashnair.com"
+
