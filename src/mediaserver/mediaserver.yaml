@@ -20,7 +20,7 @@ spec:
       accessMode: ""
       pvcName: mediaserver-pvc
       size: 5Gi
-      pvcStorageClass: ""
+      pvcStorageClass: "local-path"
       # the path starting from the top level of the pv you're passing. If your share is server.local/share/, then tv is server.local/share/media/tv
       subPaths:
         tv: media/tv
