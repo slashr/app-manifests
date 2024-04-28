@@ -24,7 +24,7 @@ spec:
       values: |
         replicaCount: '6'
         ui:
-          color: "#37c412"
+          color: "#46b329"
           message: "Welcome to the Shrub"
           logo: "https://i.giphy.com/S2FZNeTbQxe2OJeRwn.webp"
         ingress:
