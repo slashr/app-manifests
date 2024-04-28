@@ -23,6 +23,10 @@ spec:
     helm:
       values: |
         replicaCount: '6'
+        ui:
+          color: "#42A146"
+          message: "Welcome to the Shrub"
+          logo: "https://i.giphy.com/S2FZNeTbQxe2OJeRwn.webp"
         ingress:
           enabled: true
           annotations:
