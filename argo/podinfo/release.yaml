@@ -22,7 +22,7 @@ spec:
     chart: podinfo
     helm:
       values: |
-        replicaCount: '2'
+        replicaCount: '6'
         ingress:
           enabled: true
           annotations:
@@ -41,3 +41,18 @@ spec:
                 - "podinfo.akashnair.com"
               secretName: podinfo-tls
 
+          # Run a pod on each of the cluster Nodes
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: "name"
+                      operator: In
+                      values:
+                        - "jim"
+                        - "michael"
+                        - "angela"
+                        - "stanley"
+                        - "phyllis"
+                        - "toby"
