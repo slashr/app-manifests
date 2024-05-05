@@ -15,6 +15,6 @@ spec:
     - CreateNamespace=true
   project: default
   source:
-    targetRevision: '>=58.*.*'
+    targetRevision: '>=58.3.3'
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack

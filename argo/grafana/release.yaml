@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: podinfo
+  namespace: argo-cd
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: podinfo
+    server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+  project: default
+  source:
+    targetRevision: '>=5.*.*'
+    repoURL: 'https://stefanprodan.github.io/podinfo'
+    chart: podinfo
+    helm:
+      values: |
+        replicaCount: '6'
+        ui:
+          color: "#46b329"
+          message: "Welcome to the Shrub"
+          logo: "https://i.giphy.com/S2FZNeTbQxe2OJeRwn.webp"
+        ingress:
+          enabled: true
+          annotations:
+            # Create a A record pointing to the given IP on cloudflare
+            external-dns.alpha.kubernetes.io/hostname: hey.shrub.dev
+            external-dns.alpha.kubernetes.io/target: 130.61.64.164
+            # This lets cert-manager identify which Ingresses to generate a cert for
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+            - host: "hey.shrub.dev"
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - hosts:
+                - "hey.shrub.dev"
+              secretName: podinfo-tls
+
+          # Run a pod on each of the cluster Nodes
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: "name"
+                      operator: In
+                      values:
+                        - "jim"
+                        - "michael"
+                        - "angela"
+                        - "stanley"
+                        - "phyllis"
+                        - "toby"
