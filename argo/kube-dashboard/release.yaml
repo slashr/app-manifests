@@ -25,7 +25,7 @@ spec:
           ingress:
             enabled: true
             hosts:
-              - "grafana.shrub.dev"
+              - "kube.shrub.dev"
             ingressClassName: traefik
             # This will append our Ingress with annotations required by our default configuration.
             #    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
