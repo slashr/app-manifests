@@ -16,7 +16,7 @@ spec:
     - ServerSideApply=true
   project: default
   source:
-    targetRevision: '>=7.3.2'
+    targetRevision: '7.*'
     repoURL: 'https://kubernetes.github.io/dashboard'
     chart: kubernetes-dashboard
     helm:
