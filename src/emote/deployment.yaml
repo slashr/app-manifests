@@ -21,4 +21,14 @@ spec:
         image: dawker/bart-large-mnli-frontend:1.4.0
         ports:
         - containerPort: 80
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - stanley
+                - phyllis
 

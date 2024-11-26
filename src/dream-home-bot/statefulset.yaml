@@ -1,0 +1,50 @@
+# statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dream-home-bot
+spec:
+  selector:
+    matchLabels:
+      app: dream-home-bot
+  serviceName: "dream-home-bot"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dream-home-bot
+    spec:
+      containers:
+      - name: dream-home-bot
+        image: dawker/dream-home-bot:v1
+        imagePullPolicy: Always
+        env:
+        - name: TELEGRAM_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: telegram-secrets
+              key: TELEGRAM_BOT_TOKEN
+        - name: TELEGRAM_USER_ID
+          valueFrom:
+            secretKeyRef:
+              name: telegram-secrets
+              key: TELEGRAM_USER_ID
+        volumeMounts:
+        - name: state-volume
+          mountPath: /state
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+  volumeClaimTemplates:
+  - metadata:
+      name: state-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 512Mi
+
