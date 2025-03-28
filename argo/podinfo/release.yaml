@@ -17,7 +17,7 @@ spec:
     - CreateNamespace=true
   project: default
   source:
-    targetRevision: '>=5.*.*'
+    targetRevision: '>=6.*.*'
     repoURL: 'https://stefanprodan.github.io/podinfo'
     chart: podinfo
     helm:
