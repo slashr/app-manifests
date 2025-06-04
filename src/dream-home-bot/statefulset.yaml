@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dream-home-bot
-        image: dawker/dream-home-bot:v21
+        image: dawker/dream-home-bot:v22
         imagePullPolicy: Always
         env:
         - name: TELEGRAM_BOT_TOKEN
