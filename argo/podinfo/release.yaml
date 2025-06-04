@@ -22,7 +22,7 @@ spec:
     chart: podinfo
     helm:
       values: |
-        replicaCount: '6'
+        replicaCount: '4'
         ui:
           color: "#46b329"
           message: "Welcome to the Shrub"
