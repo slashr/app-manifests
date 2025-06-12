@@ -29,6 +29,8 @@ spec:
             secretKeyRef:
               name: telegram-secrets
               key: TELEGRAM_USER_ID
+        - name: STATE_FILE
+          value: "/state/notified.pkl"
         volumeMounts:
         - name: state-volume
           mountPath: /state
