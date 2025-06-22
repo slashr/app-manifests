@@ -29,6 +29,7 @@ spec:
             external-dns.alpha.kubernetes.io/hostname: signoz.shrub.dev
             external-dns.alpha.kubernetes.io/target: 130.61.64.164
             cert-manager.io/cluster-issuer: letsencrypt-prod
+            traefik.ingress.kubernetes.io/router.middlewares: signoz-signoz-auth@kubernetescrd
           hosts:
             - host: signoz.shrub.dev
               paths:

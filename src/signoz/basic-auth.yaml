@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: signoz-basic-auth
+  namespace: signoz
+  labels:
+    app.kubernetes.io/name: signoz
+type: Opaque
+stringData:
+  users: |
+    signoz:$apr1$hKsX1Hc3$BdBHMtQmox8gO4LHSTH4l.
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: signoz-auth
+  namespace: signoz
+spec:
+  basicAuth:
+    secret: signoz-basic-auth
