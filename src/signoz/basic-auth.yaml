@@ -8,7 +8,7 @@ metadata:
 type: Opaque
 stringData:
   users: |
-    signoz:$apr1$hKsX1Hc3$BdBHMtQmox8gO4LHSTH4l.
+    signoz:$2y$05$LAOXv895egsy8AJm/8fSdOd./.Y9dXux1wQ1EUq0UFOb93uC/TKjO
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
