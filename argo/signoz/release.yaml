@@ -22,4 +22,21 @@ spec:
       values: |
         alertmanager:
           enabled: true
+        ingress:
+          enabled: true
+          ingressClassName: traefik
+          annotations:
+            external-dns.alpha.kubernetes.io/hostname: signoz.shrub.dev
+            external-dns.alpha.kubernetes.io/target: 130.61.64.164
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+            - host: signoz.shrub.dev
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+                  port: 8080
+          tls:
+            - hosts:
+                - signoz.shrub.dev
+              secretName: signoz-tls
 
