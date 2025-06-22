@@ -19,10 +19,10 @@ spec:
     repoURL: 'https://charts.signoz.io'
     chart: signoz
     helm:
-      values:|
+      values: |
         ingress:
           enabled: true
-          className: traefik
+          className: "traefik"
           annotations:
             external-dns.alpha.kubernetes.io/hostname: signoz.shrub.dev
             external-dns.alpha.kubernetes.io/target: 130.61.64.164
