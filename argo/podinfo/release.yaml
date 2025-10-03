@@ -25,8 +25,7 @@ spec:
         replicaCount: '4'
         ui:
           color: "#37891e"
-          message: "Welcome to the Shrub"
-          logo: "https://i.giphy.com/S2FZNeTbQxe2OJeRwn.webp"
+          logo: "https://c.tenor.com/KFWpTDMlfSsAAAAC/tenor.gif"
         ingress:
           enabled: true
           annotations:
