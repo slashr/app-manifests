@@ -62,7 +62,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: kubernetes.io/hostname
+                      - key: name
                         operator: In
                         values:
                           - stanley
