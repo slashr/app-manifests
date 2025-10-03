@@ -12,7 +12,7 @@ spec:
       selfHeal: true
       prune: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
   project: default
   source:
     targetRevision: '>=0.84.0'
@@ -55,59 +55,4 @@ spec:
                     receivers: [otlp, hostmetrics]
                     processors: [batch]
                     exporters: [clickhousemetricswrite, metadataexporter, signozclickhousemetrics]
-
-        clickhouse:
-          # Keep your node pinning to ARM nodes
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: name
-                        operator: In
-                        values:
-                          - stanley
-                          - phyllis
-
-          # Ensure arm64 scheduling
-          nodeSelector:
-            kubernetes.io/arch: arm64
-
-          # Use multi-arch CH images (tags shown are examples; keep in sync with your policy)
-          image:
-            repository: clickhouse/clickhouse-server
-            tag: "24.8"
-            pullPolicy: IfNotPresent
-
-          keeper:
-            enabled: true
-            image:
-              repository: clickhouse/clickhouse-keeper
-              tag: "24.8"
-              pullPolicy: IfNotPresent
-
-          # Only override the UDF init command; leave its image to the chart default (a map).
-          initContainers:
-            udf:
-              command:
-                - /bin/sh
-                - -c
-                - |
-                  set -euo pipefail
-                  ARCH="$(uname -m | sed \
-                    -e 's/aarch64/arm64/' \
-                    -e 's/armv8.*/arm64/' \
-                    -e 's/armv7.*/arm64/' \
-                    -e 's/x86_64/amd64/')"
-
-                  if [ "$ARCH" != "arm64" ] && [ "$ARCH" != "amd64" ]; then
-                    echo "Unsupported architecture: $(uname -m) → $ARCH"
-                    exit 1
-                  fi
-
-                  echo "Downloading histogram-quantile_linux_${ARCH}.tar.gz ..."
-                  wget -q "https://github.com/SigNoz/clickhouse-udf/releases/download/v0.1.0/histogram-quantile_linux_${ARCH}.tar.gz" -O /tmp/hq.tar.gz
-                  mkdir -p /usr/share/clickhouse/user_scripts
-                  tar -xzf /tmp/hq.tar.gz -C /usr/share/clickhouse/user_scripts
-                  rm -f /tmp/hq.tar.gz
 
