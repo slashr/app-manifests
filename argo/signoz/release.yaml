@@ -12,7 +12,7 @@ spec:
       selfHeal: true
       prune: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
   project: default
   source:
     targetRevision: '>=0.84.0'
@@ -57,6 +57,7 @@ spec:
                     exporters: [clickhousemetricswrite, metadataexporter, signozclickhousemetrics]
 
         clickhouse:
+          # Restrict scheduling to your ARM nodes
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -67,4 +68,43 @@ spec:
                         values:
                           - stanley
                           - phyllis
+          nodeSelector:
+            kubernetes.io/arch: arm64
+
+          image:
+            repository: clickhouse/clickhouse-server
+            tag: "24.8"
+            pullPolicy: IfNotPresent
+
+          keeper:
+            enabled: true
+            image:
+              repository: clickhouse/clickhouse-keeper
+              tag: "24.8"
+              pullPolicy: IfNotPresent
+
+          initContainers:
+            udf:
+              image: alpine:3.20
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -euo pipefail
+                  ARCH="$(uname -m | sed \
+                    -e 's/aarch64/arm64/' \
+                    -e 's/armv8.*/arm64/' \
+                    -e 's/armv7.*/arm64/' \
+                    -e 's/x86_64/amd64/')"
+
+                  if [ "$ARCH" != "arm64" ] && [ "$ARCH" != "amd64" ]; then
+                    echo "Unsupported architecture: $(uname -m) → $ARCH"
+                    exit 1
+                  fi
+
+                  echo "Downloading histogram-quantile_linux_${ARCH}.tar.gz ..."
+                  wget -q "https://github.com/SigNoz/clickhouse-udf/releases/download/v0.1.0/histogram-quantile_linux_${ARCH}.tar.gz" -O /tmp/hq.tar.gz
+                  mkdir -p /usr/share/clickhouse/user_scripts
+                  tar -xzf /tmp/hq.tar.gz -C /usr/share/clickhouse/user_scripts
+                  rm -f /tmp/hq.tar.gz
 
