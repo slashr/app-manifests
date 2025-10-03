@@ -56,3 +56,15 @@ spec:
                     processors: [batch]
                     exporters: [clickhousemetricswrite, metadataexporter, signozclickhousemetrics]
 
+        clickhouse:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - stanley
+                          - phyllis
+
