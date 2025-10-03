@@ -26,7 +26,7 @@ spec:
         ui:
           color: "#37891e"
           logo: "https://c.tenor.com/KFWpTDMlfSsAAAAC/tenor.gif"
-          message: "I'm outta here"
+          message: "🌳🌲🌴🌵🥦"
         ingress:
           enabled: true
           annotations:
