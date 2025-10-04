@@ -55,4 +55,16 @@ spec:
                     receivers: [otlp, hostmetrics]
                     processors: [batch]
                     exporters: [clickhousemetricswrite, metadataexporter, signozclickhousemetrics]
+        clickhouse:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - jim-pi
+                          - michael-pi
+
 
