@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homelab-app
+  name: homelab-map
   namespace: argo-cd
 spec:
   destination:
-    namespace: homelab-app
+    namespace: homelab-map
     server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
@@ -17,4 +17,4 @@ spec:
   source:
     targetRevision: HEAD
     repoURL: 'https://github.com/slashr/app-manifests.git'
-    path: src/homelab-app
+    path: src/homelab-map
