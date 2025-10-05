@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homelab-map
+  namespace: homelab-map
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: map.shrub.dev
+    external-dns.alpha.kubernetes.io/target: 130.61.64.164
+spec:
+  rules:
+  - host: map.shrub.dev
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: homelab-map-aggregator
+            port:
+              number: 8000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: homelab-map-frontend
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - map.shrub.dev
+    secretName: homelab-map-tls
+

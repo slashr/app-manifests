@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: homelab-map-agent
+  namespace: homelab-map
+  labels:
+    app: homelab-map-agent
+spec:
+  selector:
+    matchLabels:
+      app: homelab-map-agent
+  template:
+    metadata:
+      labels:
+        app: homelab-map-agent
+    spec:
+      serviceAccountName: homelab-map-agent
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: agent
+        image: dawker/homelab-map-agent:latest
+        imagePullPolicy: Always
+        env:
+        - name: AGGREGATOR_URL
+          value: "http://homelab-map-aggregator.homelab-map.svc.cluster.local:8000"
+        - name: REPORT_INTERVAL
+          value: "30"
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        securityContext:
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+      tolerations:
+      # Run on all nodes including master
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homelab-map-agent
+  namespace: homelab-map
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: homelab-map-agent
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: homelab-map-agent
+subjects:
+- kind: ServiceAccount
+  name: homelab-map-agent
+  namespace: homelab-map
+roleRef:
+  kind: ClusterRole
+  name: homelab-map-agent
+  apiGroup: rbac.authorization.k8s.io
+

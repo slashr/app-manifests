@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelab-map-aggregator
+  namespace: homelab-map
+  labels:
+    app: homelab-map-aggregator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homelab-map-aggregator
+  template:
+    metadata:
+      labels:
+        app: homelab-map-aggregator
+    spec:
+      containers:
+      - name: aggregator
+        image: dawker/homelab-map-aggregator:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homelab-map-aggregator
+  namespace: homelab-map
+  labels:
+    app: homelab-map-aggregator
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: homelab-map-aggregator
+
