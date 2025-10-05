@@ -22,7 +22,7 @@ spec:
     chart: podinfo
     helm:
       values: |
-        replicaCount: '4'
+        replicaCount: '1'
         ui:
           color: "#37891e"
           logo: "https://c.tenor.com/KFWpTDMlfSsAAAAC/tenor.gif"
