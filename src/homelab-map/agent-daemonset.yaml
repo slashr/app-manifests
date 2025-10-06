@@ -38,8 +38,10 @@ spec:
             memory: "128Mi"
             cpu: "100m"
         securityContext:
-          privileged: false
-          readOnlyRootFilesystem: true
+          capabilities:
+            add:
+            - NET_RAW  # Required for ping
+          readOnlyRootFilesystem: false  # Changed to allow ping to work
           runAsNonRoot: true
           runAsUser: 1000
       tolerations:
