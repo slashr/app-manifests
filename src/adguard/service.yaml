@@ -3,12 +3,15 @@ kind: Service
 metadata:
   name: adguard-ui
   namespace: adguard
+  labels:
+    app: adguard
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: adguard
   ports:
     - name: http
       port: 3000
       targetPort: 3000
-      nodePort: 32000
+      protocol: TCP
+
