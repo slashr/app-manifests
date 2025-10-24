@@ -14,7 +14,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
-        name: dwight-pi 
+        name: dwight
       containers:
         - name: adguard
           image: adguard/adguardhome:latest
