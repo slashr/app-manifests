@@ -12,7 +12,6 @@ spec:
       labels: { app: adguard }
     spec:
       hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
         name: dwight
       initContainers:
