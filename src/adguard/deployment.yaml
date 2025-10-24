@@ -2,48 +2,45 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adguard
+  namespace: adguard
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: adguard
+    matchLabels: { app: adguard }
   template:
     metadata:
-      labels:
-        app: adguard
+      labels: { app: adguard }
     spec:
-      initContainers:
-      - name: copy-config
-        image: busybox:1.36
-        command:
-        - /bin/sh
-        - -c
-        - cp /config/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml
-        volumeMounts:
-        - name: config-template
-          mountPath: /config
-        - name: config
-          mountPath: /opt/adguardhome/conf
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        name: dwight-pi 
       containers:
-      - name: adguard
-        image: adguard/adguardhome:v0.107.43
-        volumeMounts:
-        - name: config
-          mountPath: /opt/adguardhome/conf
-        ports:
-        - containerPort: 53
-        - containerPort: 80
-        - containerPort: 443
-        - containerPort: 784
-        - containerPort: 853
-        - containerPort: 3000
+        - name: adguard
+          image: adguard/adguardhome:latest
+          args: ["--no-check-update"]
+          ports:
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dot
+              containerPort: 853
+              protocol: TCP
+            - name: doq
+              containerPort: 784
+              protocol: UDP
+            - name: web
+              containerPort: 3000
+          volumeMounts:
+            - name: work
+              mountPath: /opt/adguardhome/work
+            - name: conf
+              mountPath: /opt/adguardhome/conf
       volumes:
-      - name: config
-        emptyDir: {}
-      - name: config-template
-        configMap:
-          name: adguard-config
-
-
+        - name: work
+          hostPath: { path: /var/lib/adguard/work, type: DirectoryOrCreate }
+        - name: conf
+          hostPath: { path: /var/lib/adguard/conf, type: DirectoryOrCreate }
