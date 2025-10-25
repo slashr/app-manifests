@@ -29,4 +29,5 @@ spec:
           name: controller-manager
         githubWebhookServer:
           enabled: false
+        installCRDs: true
 
