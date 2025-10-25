@@ -3,7 +3,13 @@ kind: Application
 metadata:
   name: actions-runner-controller
   namespace: argo-cd
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true,SkipDryRunOnMissingResource=true
 spec:
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
   destination:
     namespace: gha-runner
     server: 'https://kubernetes.default.svc'

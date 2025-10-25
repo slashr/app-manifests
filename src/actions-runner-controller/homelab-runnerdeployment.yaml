@@ -3,13 +3,7 @@ kind: RunnerDeployment
 metadata:
   name: homelab-runner
   namespace: arc-system
-  annotations:
-    argocd.argoproj.io/sync-options: ServerSideApply=true, SkipDryRunOnMissingResource=true
 spec:
-  syncPolicy:
-    syncOptions:
-      - ServerSideApply=true
-      - SkipDryRunOnMissingResource=true
   replicas: 1
   template:
     spec:
