@@ -14,7 +14,6 @@ spec:
         - arm64
       # Use ubuntu-22.04 runner image which has Python 3.10+ (yamllint requires >=3.9)
       image: summerwind/actions-runner:ubuntu-22.04
-      dockerdWithinRunnerContainer: true
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
