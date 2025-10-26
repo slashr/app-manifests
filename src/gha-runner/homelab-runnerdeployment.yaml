@@ -12,8 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Use latest image (stable, proven to work)
-      image: summerwind/actions-runner:latest
+      # Ubuntu 22.04 image - has Python 3.10+, Node.js pre-installed
+      image: summerwind/actions-runner:ubuntu-22.04
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
