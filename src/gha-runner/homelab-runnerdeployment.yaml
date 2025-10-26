@@ -12,14 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Use ubuntu-22.04 runner image and install pip via dockerEnv command
-      image: summerwind/actions-runner:ubuntu-22.04
-      # Install pip before runner starts
-      command: ["/bin/bash"]
-      args:
-        - -c
-        - |
-          apt-get update && apt-get install -y python3-pip && /entrypoint.sh
+      # Use latest image (has pip but Python 3.8) - will use ubuntu-latest for pre-commit jobs
+      image: summerwind/actions-runner:latest
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
