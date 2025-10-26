@@ -12,8 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Ubuntu 22.04 image - has Python 3.10+, Node.js pre-installed
-      image: summerwind/actions-runner:ubuntu-22.04
+      # Use latest image - stable for Ansible jobs (don't need Python 3.10+)
+      image: summerwind/actions-runner:latest
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
