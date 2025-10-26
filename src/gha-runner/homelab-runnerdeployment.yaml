@@ -12,8 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Use latest image (has pip but Python 3.8) - will use ubuntu-latest for pre-commit jobs
-      image: summerwind/actions-runner:latest
+      # Use ubuntu-jammy (22.04) image - has Python 3.10, Node.js, pip pre-installed
+      image: summerwind/actions-runner:ubuntu-jammy
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
