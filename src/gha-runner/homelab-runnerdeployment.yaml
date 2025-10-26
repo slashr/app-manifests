@@ -12,8 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Use ubuntu-jammy (22.04) image - has Python 3.10, Node.js, pip pre-installed
-      image: summerwind/actions-runner:ubuntu-jammy
+      # Use latest image (stable, proven to work)
+      image: summerwind/actions-runner:latest
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
