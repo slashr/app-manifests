@@ -12,8 +12,8 @@ spec:
         - self-hosted
         - linux
         - arm64
-      # Ubuntu 22.04 - has Python 3.10+ for pre-commit
-      image: summerwind/actions-runner:ubuntu-22.04
+      # Use latest image - stable and well-tested
+      image: summerwind/actions-runner:latest
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
