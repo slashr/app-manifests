@@ -24,7 +24,9 @@ spec:
             - |
               set -e
               mkdir -p /conf
-              cp -f /seed/AdGuardHome.yaml /conf/AdGuardHome.yaml
+              if [ ! -f /conf/AdGuardHome.yaml ]; then
+                cp /seed/AdGuardHome.yaml /conf/AdGuardHome.yaml
+              fi
               chown -R 1000:1000 /conf
           volumeMounts:
             - name: conf
@@ -69,4 +71,3 @@ spec:
         - name: conf
           persistentVolumeClaim:
             claimName: adguard-conf
-
