@@ -1,5 +1,5 @@
 ## Fully Automated Workflow (FAW)
-These steps apply only when a task explicitly calls out the “FAW” (Fully Automated Workflow). For any other work, continue to follow the standard flow you already know:
+These steps apply only when a task explicitly mentions the usage of FAW. For any other work, continue to follow the standard flow you already know:
 1. Pick up a task, implement the change locally, and open a PR for review.
 2. Ensure every required check on the PR completes successfully; if a check fails, push fixes until it passes.
 3. Wait for the automated Codex reviewer to approve by either leaving a 👍 comment/review or reacting with 👍 on the PR description.
