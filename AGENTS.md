@@ -78,3 +78,23 @@ If blocking: open an issue `AXP: Escalation — TASK-###` with a short summary a
 ### Mapping to your basic flow
 
 1. grab a task → 2) analyze/plan → 3) `gh pr create` → 4) watch checks → 5) watch Codex → 6) merge → 7) next task.
+
+---
+### Command Safety Rules
+
+Never execute commands that can cause irreversible or destructive changes to systems, repositories, or infrastructure.
+Before running any shell command, you should scan the command string and compare it against this banned/restricted list.
+
+Banned Commands (Hard Stop)
+
+If any of these exact commands or dangerous variants appear (even with flags or parameters), immediately abort execution and log an entry in .axp/TRACE.md.
+| Category                 | Command / Pattern                                                                                                        | Reason                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| **System Destruction**   | `rm -rf /`, `sudo rm -rf /`, `rm -rf *`, `rm -rf .*`, `rm --no-preserve-root`                                            | Irrecoverable file deletion                         |
+| **Privilege Escalation** | `sudo` (unless in a safe script explicitly whitelisted)                                                                  | Prevent privilege escalation                        |
+| **Terraform**            | `terraform destroy`, `terraform apply -target=*`, `terraform apply -replace=*`                                           | Avoid unintended deletions or partial applies       |
+| **Kubernetes**           | `kubectl delete namespace`, `kubectl delete node`, `kubectl delete pvc --all`, `kubectl delete --force --grace-period=0` | Cluster/data destruction risk                       |
+| **AWS / Cloud**          | `aws iam delete-*`, `aws ec2 terminate-instances --all`, `aws s3 rm --recursive s3://*`                                  | Cloud resource deletion risk                        |
+| **Git / Repo**           | `git rebase -i origin/main`, `git reset --hard origin/main`                                          | Avoid losing commit history or overwriting branches |
+| **Shell / System**       | `shutdown`, `reboot`, `halt`, `kill -9 1`                                                                                | System stability risk                               |
+
