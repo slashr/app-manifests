@@ -1,28 +1,27 @@
-# FAW - Fully Automated Workflow
+# AXP - Autonomous Execution Protocol
 
-**Goal:** When FAW is mentioned, Codex works end‑to‑end without asking the user: pick a task → implement → PR → green checks + 👍 → merge → verify release → next task.
+When AXP is mentioned in the task, either by the user or in TASKS.md, you should work end‑to‑end without needing user input. At a high level the flow should be: pick task → plan → implement → PR → green checks → codex reviewer approval → merge → verify release → next task.
 
 ---
 
-## Minimal Rules (what matters)
+## Minimal Rules
 
 1. **Don’t stop early.** Keep going until a **Stop Condition** (below) is met.
-2. **Merge gate:** Only merge when **all required checks are green** **and** Codex has given a **👍** (review approval, 👍 comment, or 👍 on PR description).
-3. **Act, don’t wait.** Use local CLIs (`git`, `gh`, `kubectl`, `aws`) and **poll** proactively; no user nudges.
+2. **Merge gate:** Only merge when **all required checks are green** **and** Codex has given a **👍** (review approval, approving comment, or 👍 on PR description).
+3. **Act, don’t wait.** Use local CLIs (`git`, `gh`, `kubectl`, `aws`, `terraform`, `ansible-playbook`) and **poll** proactively; no user nudges.
 
 ---
 
 ## The Loop (simple checklist)
 
-1. **Pick task:** Either perform the task user has requested, or pick one from TASKS.md (if it exists)
-2. **Plan & branch:** Write a brief `PLAN.md`. Create `faw/TASK-###-short-slug`.
+1. **Pick task:** Either perform the task user has requested, or pick one from TASKS.md. If picked from TASKS.md, mark it as IN PROGRESS
+2. **Plan & branch:** Write a brief `PLAN.md`.
 3. **Implement:** Commit small, logical changes.
 4. **Open PR:**
-
    ```bash
    gh pr create --fill \
-     --title "TASK-###: <short title> [FAW]" \
-     --label faw,automation
+     --title "TASK-###: <short title> [AXP]" \
+     --label axp
    ```
 5. **Watch checks (poll ~60s):**
 
@@ -31,48 +30,47 @@
    ```
 
    * If a check fails, **fix → push → watch again**.
+   If you pushed fixes after PR creation and after Codex reviewer had already given a thumbs up, then request a re-review from codex reviewer by commenting "@codex review again"
+   
 6. **Codex review:**
+   Codex starts a review automatically on PR creation. You will see that it adds eyes emoji to the PR description when it is revewing. 
+   The eyes emoji changes to a thumbs up emoji if review passes. If you see this then you are safe to merge. 
 
-   ```bash
-   gh pr comment --body "@codex please review"
-   ```
+   Otherwise, codex reviewer leaves a review comment as a reply to one of it's main comments. 
 
-   * If Codex leaves feedback, **apply fixes**, push, then:
+   You should address this review and leave a reply to that comment inline (not as a independent comment) mentioning whether you accept the review and fixed it or whether you think the review doesn't need to be fixed and skipped it. 
 
-   ```bash
-   gh pr comment --body "@codex review again"
-   ```
-
-   * Wait until there’s a **👍** (review/comment/reaction) from Codex.
-7. **Merge (only after gate):**
-
+   If you pushed a fix for the review, then add "@codex review again" at the end of the reply to make codex reviewer review the fresh commits again. 
+   
+7. **Merge:**
+   If PR checks are green and codex has given a approval and all review comments (if any) are addressed, it can be merged
    ```bash
    gh pr merge --merge --delete-branch
    ```
 8. **Post‑merge release:**
-
+   After merging the PR, watch the Actions pipeline until it passes
    ```bash
    gh run watch --workflow "Release"
    ```
 
    * If it **fails**, open a minimal **Recovery PR** and repeat the loop. Try up to **3** times. If still failing, **escalate** (see Stop Conditions).
-9. **Close the loop:** Mark the task `DONE` in `TASKS.md` and **pick the next FAW task**.
+9. **Close the loop:** Mark the task `DONE` in `TASKS.md` and **pick the next AXP task**.
 
 ---
 
 ## Stop Conditions
 
-* **No FAW TODO** tasks remain.
+* **No AXP TODO** tasks remain.
 * **Blocking error:** cannot auth, missing permissions/secrets, CI/infra down > 60m, or recovery attempts exhausted (3 PRs).
-* User explicitly says **stop FAW**.
+* User explicitly says **stop AXP**.
 
-If blocking: open an issue `FAW: Escalation — TASK-###` with a short summary and links, then stop.
+If blocking: open an issue `AXP: Escalation — TASK-###` with a short summary and links, then stop.
 
 ---
 
-## Optional Niceties (skip if you want ultra‑minimal)
+## Optional Niceties
 
-* Maintain a single‑line audit in `.faw/TRACE.md` (time, action, PR/run URL).
+* Maintain a single‑line audit in `.axp/TRACE.md` (time, action, PR/run URL).
 * Copy the task’s **Acceptance** checklist into the PR body and tick as you verify.
 
 ---
