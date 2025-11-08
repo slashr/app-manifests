@@ -1,16 +1,82 @@
-## Fully Automated Workflow (FAW)
-These steps apply only when a task explicitly mentions the usage of FAW. For any other work, continue to follow the standard flow you already know:
-1. When FAW is in play you are expected to use the local CLI tools (`git`, `gh`, etc.) to monitor runs, query statuses, and interact with the repo as if you were hands-on—don’t rely on passive notifications alone.
-1. Pick up a task, implement the change locally, and open a PR for review.
-2. Ensure every required check on the PR completes successfully; if a check fails, push fixes until it passes.
-3. Wait for the automated Codex reviewer to approve by either leaving a 👍 comment/review or reacting with 👍 on the PR description.
-4. If Codex leaves review feedback instead of a 👍, address the comments and push the fixes.
-5. Tag `@codex` for re-review whenever you push new commits after the initial PR, whether to fix checks or respond to Codex feedback.
-6. Repeat the fix → re-review loop until Codex responds with a 👍 (comment, review, or description reaction) or an explicit all-clear.
-7. Merge only after Codex has approved with a 👍 and all required checks are green.
-8. After merging, watch the follow-up automation (e.g., the Release workflow) until it finishes and respond to any failures.
-9. If a post-merge run fails, immediately investigate the error and open a new PR that fixes it. You may trigger this recovery flow up to three times (three consecutive merged PRs followed by failing automation runs). After the third failure, stop retrying and escalate instead of opening more PRs under FAW.
-10. Once the post-merge automation succeeds, pick the next pending item from `TASKS.md` (if present) and start work on it while keeping the FAW rules in mind.
-11. Before asking for the thumbs-up or merging, explicitly read Codex’s latest review/comments to make sure any suggestions are captured–don’t rely solely on reactions.
-12. After implementing any Codex feedback, reply inline via the original review thread (use the Reply action) so the action taken stays attached to the comment rather than creating a separate message.
-13. When replying in-thread, append “@codex review again” so Codex re-checks the up-to-date commits before giving the 👍.
+# FAW - Fully Automated Workflow
+
+**Goal:** When FAW is mentioned, Codex works end‑to‑end without asking the user: pick a task → implement → PR → green checks + 👍 → merge → verify release → next task.
+
+---
+
+## Minimal Rules (what matters)
+
+1. **Don’t stop early.** Keep going until a **Stop Condition** (below) is met.
+2. **Merge gate:** Only merge when **all required checks are green** **and** Codex has given a **👍** (review approval, 👍 comment, or 👍 on PR description).
+3. **Act, don’t wait.** Use local CLIs (`git`, `gh`, `kubectl`, `aws`) and **poll** proactively; no user nudges.
+
+---
+
+## The Loop (simple checklist)
+
+1. **Pick task:** First `FAW: on` with `Status: TODO` in `TASKS.md`. Set `Status: IN_PROGRESS`.
+2. **Plan & branch:** Write a brief `PLAN.md`. Create `faw/TASK-###-short-slug`.
+3. **Implement:** Commit small, logical changes.
+4. **Open PR:**
+
+   ```bash
+   gh pr create --fill \
+     --title "TASK-###: <short title> [FAW]" \
+     --label faw,automation
+   ```
+5. **Watch checks (poll ~60s):**
+
+   ```bash
+   gh pr checks --watch
+   ```
+
+   * If a check fails, **fix → push → watch again**.
+6. **Codex review:**
+
+   ```bash
+   gh pr comment --body "@codex please review"
+   ```
+
+   * If Codex leaves feedback, **apply fixes**, push, then:
+
+   ```bash
+   gh pr comment --body "@codex review again"
+   ```
+
+   * Wait until there’s a **👍** (review/comment/reaction) from Codex.
+7. **Merge (only after gate):**
+
+   ```bash
+   gh pr merge --merge --delete-branch
+   ```
+8. **Post‑merge release:**
+
+   ```bash
+   gh run watch --workflow "Release"
+   ```
+
+   * If it **fails**, open a minimal **Recovery PR** and repeat the loop. Try up to **3** times. If still failing, **escalate** (see Stop Conditions).
+9. **Close the loop:** Mark the task `DONE` in `TASKS.md` and **pick the next FAW task**.
+
+---
+
+## Stop Conditions
+
+* **No FAW TODO** tasks remain.
+* **Blocking error:** cannot auth, missing permissions/secrets, CI/infra down > 60m, or recovery attempts exhausted (3 PRs).
+* User explicitly says **stop FAW**.
+
+If blocking: open an issue `FAW: Escalation — TASK-###` with a short summary and links, then stop.
+
+---
+
+## Optional Niceties (skip if you want ultra‑minimal)
+
+* Maintain a single‑line audit in `.faw/TRACE.md` (time, action, PR/run URL).
+* Copy the task’s **Acceptance** checklist into the PR body and tick as you verify.
+
+---
+
+### Mapping to your basic flow
+
+1. grab a task → 2) analyze/plan → 3) `gh pr create` → 4) watch checks → 5) watch Codex → 6) merge → 7) next task.
