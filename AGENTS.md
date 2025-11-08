@@ -1,5 +1,6 @@
 ## Fully Automated Workflow (FAW)
 These steps apply only when a task explicitly mentions the usage of FAW. For any other work, continue to follow the standard flow you already know:
+1. When FAW is in play you are expected to use the local CLI tools (`git`, `gh`, etc.) to monitor runs, query statuses, and interact with the repo as if you were hands-on—don’t rely on passive notifications alone.
 1. Pick up a task, implement the change locally, and open a PR for review.
 2. Ensure every required check on the PR completes successfully; if a check fails, push fixes until it passes.
 3. Wait for the automated Codex reviewer to approve by either leaving a 👍 comment/review or reacting with 👍 on the PR description.
