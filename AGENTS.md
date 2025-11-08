@@ -14,7 +14,7 @@
 
 ## The Loop (simple checklist)
 
-1. **Pick task:** First `FAW: on` with `Status: TODO` in `TASKS.md`. Set `Status: IN_PROGRESS`.
+1. **Pick task:** Either perform the task user has requested, or pick one from TASKS.md (if it exists)
 2. **Plan & branch:** Write a brief `PLAN.md`. Create `faw/TASK-###-short-slug`.
 3. **Implement:** Commit small, logical changes.
 4. **Open PR:**
